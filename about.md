@@ -1,3 +1,5 @@
+App developed by Vlad Tarko.
+
 The code is available on Github: <https://github.com/vladtarko/regressiongui>
 
 # Acknowledgments

@@ -145,8 +145,9 @@ server <- function(input, output) {
                 tabPanel("Summary stats", p(), tableOutput("show_summary")),
                 tabPanel("Correlations",       plotOutput("show_cor",          height = 800)),
                 tabPanel("Regression results", plotOutput("show_results_plot", height = 600),
-                         tableOutput("show_results_table")
-                )
+                                               tableOutput("show_results_table")
+                ),
+                tabPanel("About", p(),         includeMarkdown("about.md"))
             )
             
         )
