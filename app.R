@@ -5,6 +5,7 @@ library(tidyverse)
 library(ggstance)
 library(jtools)
 library(GGally)
+library(waiter)
 library(broom)
 library(broom.mixed)
 library(plm)
@@ -129,6 +130,7 @@ server <- function(input, output) {
         mainPanel(
             tabsetPanel(
                 tabPanel("Data",           p(), dataTableOutput("show_data"), height = 800),
+                
                 tabPanel("Add/Edit variables", 
                          p(),
                          fluidRow(
@@ -140,13 +142,17 @@ server <- function(input, output) {
                              column(6,          includeMarkdown("explain.md")),
                              column(2)
                          )
-                                               
                 ),
+                
                 tabPanel("Summary stats", p(), tableOutput("show_summary")),
-                tabPanel("Correlations",       plotOutput("show_cor",          height = 800)),
+                
+                tabPanel("Correlations",       
+                         waiter::use_waiter(), plotOutput("show_cor",          height = 800)),
+                
                 tabPanel("Regression results", plotOutput("show_results_plot", height = 600),
                                                tableOutput("show_results_table")
                 ),
+                
                 tabPanel("About", p(),         includeMarkdown("about.md"))
             )
             
@@ -189,10 +195,20 @@ server <- function(input, output) {
     
     # create correlations plots ------------------------------------------------------------
     
+    loading_screen <- div(
+      style="color:black;",
+      spin_2(),
+      h3("Calculating...")
+    )
+    
+    waiter <- waiter::Waiter$new(id = "show_cor", html = loading_screen, color = "white")
+    
     output$show_cor <- renderPlot({
         req(input$file1)
         req(!is.na(input$y))
         req(!is.na(input$x))
+        
+        waiter$show()
         
         v$df %>% 
             select(input$y, input$x) %>% 
