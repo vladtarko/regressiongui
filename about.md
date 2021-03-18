@@ -6,9 +6,9 @@ The code is available on Github: <https://github.com/vladtarko/regressiongui>
 
 The app uses the following R packages: 
 
-- `tidyverse`
 - `shiny` and `shinythemes`
 - `DT` for the data table
+- `tidyverse` for the summary statistics table
 - `GGally` for the correlation plot
 - `plm` for the fixed-effects regression
 - `jtools` for the plot of regression results
